@@ -1,7 +1,7 @@
 import { posToStr } from "../core/gameState";
+import { useKnightsTourTracker } from "../hooks/useKnightsTourTracker";
 import "./App.css";
 import { SquareView } from "./SquareView";
-import { useKnightsTourTracker } from "../hooks/useKnightsTourTracker";
 
 function App() {
     const { gameState, allPositions, handleSquareClicked } =
