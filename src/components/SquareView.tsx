@@ -1,10 +1,10 @@
 import {
     GameState,
     Position,
+    areSamePosition,
     hasBeenVisited,
     isCurrentPosition,
     isLegalMove,
-    posToStr,
 } from "../core/gameState";
 
 interface SquareViewProps {
@@ -18,6 +18,10 @@ export function SquareView({
     gameState,
     handleClick,
 }: SquareViewProps): JSX.Element {
+    const stepNumber = gameState.visitedSquares.findIndex((p) =>
+        areSamePosition(p, pos)
+    );
+
     /** return a string of css classes suitable for this square */
     function classesForSquare(givenPos: Position): string {
         const classes = ["square"];
@@ -29,10 +33,8 @@ export function SquareView({
         if (isCurrentPosition(givenPos, gameState)) {
             classes.push("current");
         }
-        if (
-            !hasBeenVisited(givenPos, gameState) &&
-            isLegalMove(gameState, givenPos)
-        ) {
+
+        if (isLegalMove(gameState, givenPos)) {
             classes.push("legal");
         }
 
@@ -43,7 +45,7 @@ export function SquareView({
             className={classesForSquare(pos)}
             onClick={() => handleClick(pos)}
         >
-            {posToStr(pos)}
+            {stepNumber > -1 ? stepNumber + 1 : ""}
         </button>
     );
 }

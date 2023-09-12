@@ -3,12 +3,14 @@ export function posToStr({ x, y }: Position): string {
     return x + "," + y;
 }
 
+export type BoardSize = 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+
 export interface GameState {
     visitedSquares: Position[];
-    size: number;
+    size: BoardSize;
 }
 
-export function createInitialGameState(boardSize: number): GameState {
+export function createInitialGameState(boardSize: BoardSize): GameState {
     return {
         visitedSquares: [],
         size: boardSize,
@@ -22,12 +24,12 @@ export function isLegalMove(gameState: GameState, proposedPos: Position) {
     } else {
         return (
             !hasBeenVisited(proposedPos, gameState) &&
-            canGetFromTo(currentPos, proposedPos)
+            knightCanGetFromTo(currentPos, proposedPos)
         );
     }
 }
-
-function canGetFromTo(currentPos: Position, proposedPos: Position) {
+/** Returns true if this is a knight's l-shaped move */
+function knightCanGetFromTo(currentPos: Position, proposedPos: Position) {
     const deltaX = Math.abs(currentPos.x - proposedPos.x);
     const deltaY = Math.abs(currentPos.y - proposedPos.y);
     return (deltaX === 2 && deltaY === 1) || (deltaX === 1 && deltaY === 2);
